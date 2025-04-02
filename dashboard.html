@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #3498db;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .profile-icon i {
+            font-size: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex: 1;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            width: 250px;
+            background-color: #34495e;
+            color: white;
+            padding: 20px 0;
+        }
+
+        .dashboard-menu {
+            list-style: none;
+        }
+
+        .dashboard-item {
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .dashboard-item:hover {
+            background-color: #2c3e50;
+        }
+
+        .dashboard-item i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .dashboard-item.active {
+            background-color: #3498db;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .section {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        /* Task Section */
+        .task-item {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .task-item:hover {
+            background-color: #eee;
+        }
+
+        .task-description {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .task-description textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .save-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .save-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Members Section */
+        .registration-form {
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .register-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .register-btn:hover {
+            background-color: #27ae60;
+        }
+
+        /* Activity Section */
+        .activity-description {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        /* Contact Section */
+        .contact-info {
+            line-height: 1.6;
+        }
+
+        .contact-info p {
+            margin-bottom: 10px;
+        }
+
+        /* About Section */
+        .about-content {
+            line-height: 1.6;
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .logout-btn:hover {
+            background-color: #c0392b;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">Dashboard</div>
+        <div class="profile-icon">
+            <i class="fas fa-user"></i>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard -->
+        <aside class="dashboard">
+            <ul class="dashboard-menu">
+                <li class="dashboard-item active" data-section="tasks">
+                    <i class="fas fa-tasks"></i> Tasks
+                </li>
+                <li class="dashboard-item" data-section="members">
+                    <i class="fas fa-users"></i> Members
+                </li>
+                <li class="dashboard-item" data-section="activity">
+                    <i class="fas fa-running"></i> Activity
+                </li>
+                <li class="dashboard-item" data-section="contact">
+                    <i class="fas fa-envelope"></i> Contact
+                </li>
+                <li class="dashboard-item" data-section="about">
+                    <i class="fas fa-info-circle"></i> About
+                </li>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </ul>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="content">
+            <!-- Tasks Section -->
+            <section class="section active" id="tasks">
+                <h2>Daily Tasks</h2>
+                <div class="task-item">
+                    <div class="task-title">Task 1</div>
+                    <div class="task-description">
+                        <textarea placeholder="Enter your task description here..."></textarea>
+                        <button class="save-btn">Save</button>
+                    </div>
+                </div>
+                <div class="task-item">
+                    <div class="task-title">Task 2</div>
+                    <div class="task-description">
+                        <textarea placeholder="Enter your task description here..."></textarea>
+                        <button class="save-btn">Save</button>
+                    </div>
+                </div>
+                <div class="task-item">
+                    <div class="task-title">Task 3</div>
+                    <div class="task-description">
+                        <textarea placeholder="Enter your task description here..."></textarea>
+                        <button class="save-btn">Save</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Members Section -->
+            <section class="section" id="members">
+                <h2>Member Registration</h2>
+                <form class="registration-form" id="registrationForm">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="surname">Surname</label>
+                        <input type="text" id="surname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <button type="submit" class="register-btn">Register</button>
+                </form>
+            </section>
+
+            <!-- Activity Section -->
+            <section class="section" id="activity">
+                <h2>Activities Performed</h2>
+                <textarea class="activity-description" placeholder="Describe the activities you performed today..."></textarea>
+                <button class="save-btn" style="margin-top: 15px;">Save Activities</button>
+            </section>
+
+            <!-- Contact Section -->
+            <section class="section" id="contact">
+                <h2>Contact Information</h2>
+                <div class="contact-info">
+                    <p><strong>Email:</strong> contact@example.com</p>
+                    <p><strong>Phone:</strong> +1 (123) 456-7890</p>
+                    <p><strong>Address:</strong> 123 Main Street, City, Country</p>
+                    <p><strong>Working Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM</p>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="section" id="about">
+                <h2>About Us</h2>
+                <div class="about-content">
+                    <p>Welcome to our dashboard application. This platform is designed to help you manage your daily tasks, team members, and activities efficiently.</p>
+                    <p>Our mission is to provide a simple yet powerful tool that enhances productivity and organization for individuals and teams alike.</p>
+                    <p>If you have any questions or feedback, please don't hesitate to contact us through the contact section.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Dashboard navigation
+        document.querySelectorAll('.dashboard-item').forEach(item => {
+            item.addEventListener('click', function() {
+                if (this.classList.contains('logout-btn')) return;
+
+                // Remove active class from all items
+                document.querySelectorAll('.dashboard-item').forEach(i => {
+                    i.classList.remove('active');
+                });
+
+                // Add active class to clicked item
+                this.classList.add('active');
+
+                // Hide all sections
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                // Show the selected section
+                const sectionId = this.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        // Task description toggle
+        document.querySelectorAll('.task-item').forEach(task => {
+            const title = task.querySelector('.task-title');
+            const description = task.querySelector('.task-description');
+
+            title.addEventListener('click', function() {
+                description.style.display = description.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+
+        // Member registration form
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form values
+            const firstName = document.getElementById('firstName').value;
+            const surname = document.getElementById('surname').value;
+            const age = document.getElementById('age').value;
+            const location = document.getElementById('location').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            // Show registration alert
+            alert(`User ${firstName} ${surname} has been registered successfully!\n\nDetails:\nAge: ${age}\nLocation: ${location}\nPhone: ${phone}\nEmail: ${email}`);
+            // Reset form
+            this.reset();
+        });
+
+        // Logout button
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                alert('You have been logged out successfully.');
+                // In a real application, you would redirect to login page
+                // window.location.href = 'login.html';
+            }
+        });
+        document.getElementById("logoutBtn").addEventListener("click", function() {
+        window.location.href = "index.html"; // Redirect to index.html
+    });
+    </script>
+</body>
+</html>
