@@ -9,9 +9,9 @@
 <body>
     <div class="form-container">
         <h2>Login Form</h2>
-        <form action="login.php" method="post" class="form">
+        <form id="loginForm" method="post" class="form">
             <label for="loginUsername">Username (Email)</label>
-            <input type="text" id="username" name="username" required>
+            <input type="email" id="username" name="username" required>
 
             <label for="loginPassword">Password</label>
             <input type="password" id="password" name="password" required>
@@ -23,6 +23,35 @@
             </div>
         </form>
     </div>
+
+    <script>
+        // JavaScript to handle form submission with client-side validation
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get the input values
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Basic client-side validation
+            if (!username || !password) {
+                alert('Please fill in both fields.');
+                return;
+            }
+
+            // Simulate successful login (Replace this with actual login logic or API call)
+            const simulatedLoginSuccess = true; // You can change this to false to simulate failure
+
+            if (simulatedLoginSuccess) {
+                // If login is successful, redirect to the dashboard
+                window.location.href = 'dashboard.html';
+            } else {
+                // If login fails, display an error
+                alert('Invalid credentials, please try again.');
+            }
+        });
+    </script>
+
     <script src="script.js"></script>
 </body>
 </html>

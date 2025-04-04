@@ -1,45 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Registration and Login Forms</title>
-        <link rel="stylesheet" href="registration.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="registration.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 10px 0 5px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="date"],
+        input[type="tel"],
+        input[type="radio"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[type="date"]:focus,
+        input[type="tel"]:focus {
+            border-color: #4e9e9e;
+            box-shadow: 0 0 8px rgba(72, 183, 174, 0.5);
+        }
+
+        .form-container input[type="radio"] {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .form-container button {
+            width: 100%;
+            background-color: #4e9e9e;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #357a7a;
+        }
+
+        .form-container .gender-label {
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        .form-container .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+                max-width: 90%;
+            }
+        }
+    </style>
 </head>
 <body>
 <!-- Registration Form -->
 <div class="form-container">
     <h2>Registration Form</h2>
-     <form action="registration.php" method="post" class="form">
-                <label for="firstName">First Name</label>
-                <input type="text" id="firstname" name="firstname" required>
+    <form action="index.html" method="post" class="form" id="registrationForm" onsubmit="handleSubmit(event)">
+        <label for="firstname">First Name</label>
+        <input type="text" id="firstname" name="firstname" required placeholder="Enter your first name">
 
-                <label for="middleName">Middle Name</label>
-                <input type="text" id="middlename" name="middlename">
+        <label for="middlename">Middle Name</label>
+        <input type="text" id="middlename" name="middlename" placeholder="Enter your middle name">
 
-                <label for="lastName">Surname</label>
-                <input type="text" id="lastname" name="lastname" required>
+        <label for="lastname">Surname</label>
+        <input type="text" id="lastname" name="lastname" required placeholder="Enter your surname">
 
-                <label for="dob">Date of Birth</label>
-                <input type="date" id="dob" name="dob" required>
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob" required>
 
-                <label for="location">Location</label>
-                <input type="text" id="location" name="location" required>
+        <label for="location">Location</label>
+        <input type="text" id="location" name="location" required placeholder="Enter your location">
 
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email">
 
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required placeholder="Enter your password">
 
-                <label for="phoneNumber">Phone Number</label>
-                <input type="tel" id="phoneNumber" name="phoneNumber" required>
+        <label for="phoneNumber">Phone Number</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="Enter your phone number">
 
-                <label for="gender">Gender</label>
-                <input id="gender" name="gender" required>
-
-                <button type="submit">Register</button>
-            </form>
+        <!-- Gender Input (Radio Buttons) -->
+        <label>Gender</label>
+        <div class="gender-options">
+            <input type="radio" id="male" name="gender" value="Male" required><span class="gender-label">Male</span>
+            <input type="radio" id="female" name="gender" value="Female" required><span class="gender-label">Female</span>
+            <input type="radio" id="other" name="gender" value="Other" required><span class="gender-label">Other</span>
         </div>
+
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+<script>
+    // Email verification logic
+    function handleSubmit(event) {
+        event.preventDefault(); // Prevent form from submitting the traditional way
+        
+        const email = document.getElementById("email").value;
+        
+        // Simulate sending a verification email (you would use a backend service for real email verification)
+        const verificationCode = Math.floor(Math.random() * 1000000); // Generate a random 6-digit verification code
+        console.log("Verification Code (for testing purposes):", verificationCode); // In a real app, this would be sent via email
+
+        // Prompt user to enter the verification code
+        const userCode = prompt("A verification code has been sent to your email. Please enter the verification code:");
+
+        if (parseInt(userCode) === verificationCode) {
+            // Simulate successful registration
+            alert("Email verified successfully!");
+
+            // Redirect to index.html after successful registration
+            window.location.href = 'index.html';
+        } else {
+            // Handle failure if verification code does not match
+            alert("Verification failed! Please check the code and try again.");
+        }
+    }
+</script>
 </body>
 </html>

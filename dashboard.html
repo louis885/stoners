@@ -258,7 +258,7 @@
                 <li class="dashboard-item active" data-section="tasks">
                     <i class="fas fa-tasks"></i> Tasks
                 </li>
-                <li class="dashboard-item" data-section="members">
+                <li class="dashboard-item" data-section="members" onclick="window.location.href='members.html';">
                     <i class="fas fa-users"></i> Members
                 </li>
                 <li class="dashboard-item" data-section="activity">
@@ -302,38 +302,6 @@
                         <button class="save-btn">Save</button>
                     </div>
                 </div>
-            </section>
-
-            <!-- Members Section -->
-            <section class="section" id="members">
-                <h2>Member Registration</h2>
-                <form class="registration-form" id="registrationForm">
-                    <div class="form-group">
-                        <label for="firstName">First Name</label>
-                        <input type="text" id="firstName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="surname">Surname</label>
-                        <input type="text" id="surname" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="age">Age</label>
-                        <input type="number" id="age" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="location">Location</label>
-                        <input type="text" id="location" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" required>
-                    </div>
-                    <button type="submit" class="register-btn">Register</button>
-                </form>
             </section>
 
             <!-- Activity Section -->
@@ -401,34 +369,18 @@
             });
         });
 
-        // Member registration form
-        document.getElementById('registrationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Get form values
-            const firstName = document.getElementById('firstName').value;
-            const surname = document.getElementById('surname').value;
-            const age = document.getElementById('age').value;
-            const location = document.getElementById('location').value;
-            const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
-            // Show registration alert
-            alert(`User ${firstName} ${surname} has been registered successfully!\n\nDetails:\nAge: ${age}\nLocation: ${location}\nPhone: ${phone}\nEmail: ${email}`);
-            // Reset form
-            this.reset();
-        });
-
         // Logout button
         document.getElementById('logoutBtn').addEventListener('click', function() {
             if (confirm('Are you sure you want to logout?')) {
                 alert('You have been logged out successfully.');
                 // In a real application, you would redirect to login page
-                // window.location.href = 'login.html';
+                localStorage.removeItem("user");
+                sessionStorage.clear();
+                document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+
+                window.location.href = "index.html";
             }
         });
-        document.getElementById("logoutBtn").addEventListener("click", function() {
-        window.location.href = "index.html"; // Redirect to index.html
-    });
     </script>
 </body>
 </html>
